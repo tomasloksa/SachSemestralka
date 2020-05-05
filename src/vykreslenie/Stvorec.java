@@ -1,7 +1,6 @@
-package Vykreslenie;
+package vykreslenie;
 
-import Vykreslenie.Zobrazenie;
-import java.awt.Rectangle;
+import vykreslenie.Zobrazenie;
 
 /**
  * Štvorec, s ktorým možno pohybovať a nakreslí sa na plátno.

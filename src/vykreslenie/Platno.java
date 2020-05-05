@@ -1,4 +1,4 @@
-package Vykreslenie;
+package vykreslenie;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -10,25 +10,20 @@ import java.awt.Shape;
 import java.awt.Graphics;
 import java.awt.Dimension;
 import java.awt.Rectangle;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
 import java.util.HashMap;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
+import sach.Hrac;
 
 /**
  * Canvas is a class to allow for simple graphical drawing on a canvas.
  * This is a modification of the general purpose Canvas, specially made for
  * the BlueJ "shapes" example. 
  *
- * @author: Bruce Quig
- * @author: Michael Kolling (mik)
- *
- * @version: 1.6.1 (shapes)
  */
 
 
@@ -41,7 +36,7 @@ public class Platno {
      */
     public static Platno dajPlatno() {
         if (Platno.platnoSingleton == null) {
-            Platno.platnoSingleton = new Platno("Sach", 750, 750, 
+            Platno.platnoSingleton = new Platno("Sach", 900, 759, 
                                          Color.white);
         }
         Platno.platnoSingleton.setVisible(true);
@@ -57,6 +52,7 @@ public class Platno {
     private Image canvasImage;
     private Timer timer;
     private List<Object> objekty;
+    private List<String> casy;
     private HashMap<Object, Ikona> figurky;
     private HashMap<Object, PopisTvaru> tvary;
     
@@ -73,12 +69,14 @@ public class Platno {
         this.frame.setContentPane(this.canvas);
         this.frame.setTitle(titulok);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // PRIDANE
+        this.frame.setPreferredSize(new Dimension(sirka, vyska));
         this.canvas.setPreferredSize(new Dimension(sirka, vyska));
         this.timer = new javax.swing.Timer(25, null);
         this.timer.start();
         this.pozadie = pozadie;
         this.frame.pack();
         this.objekty = new ArrayList<>();
+        this.casy = new ArrayList<>();
         this.figurky = new HashMap<>();
         this.tvary = new HashMap<>();
     }
@@ -90,7 +88,7 @@ public class Platno {
             this.objekty.add(object);
             Image image = ImageIO.read(new File(cesta));
             image = image.getScaledInstance(strana, strana, Image.SCALE_DEFAULT);
-            figurky.put(object, new Ikona(lavyHornyX, lavyHornyY, image));
+            this.figurky.put(object, new Ikona(lavyHornyX, lavyHornyY, image));
             if (redraw) {
                 this.redraw();
             }
@@ -122,9 +120,9 @@ public class Platno {
 
     /**
      * Draw a given shape onto the canvas.
-     * @param  referenceObject  an object to define identity for this shape
-     * @param  color            the color of the shape
-     * @param  shape            the shape object to be drawn on the canvas
+     * @param  objekt  an object to define identity for this shape
+     * @param  farba            the color of the shape
+     * @param  tvar           the shape object to be drawn on the canvas
      */
      // Note: this is a slightly backwards way of maintaining the shape
      // objects. It is carefully designed to keep the visible shape interfaces
@@ -140,7 +138,7 @@ public class Platno {
  
     /**
      * Erase a given shape's from the screen.
-     * @param  referenceObject  the shape object to be erased 
+     * @param  objekt  the shape object to be erased 
      */
     public void erase(Object objekt) {
         this.objekty.remove(objekt);   // just in case it was already there
@@ -150,30 +148,41 @@ public class Platno {
 
     /**
      * Set the foreground colour of the Canvas.
-     * @param  newColour   the new colour for the foreground of the Canvas 
+     * @param  farba   the new colour for the foreground of the Canvas 
      */
     // UPRAVENE
     public void setForegroundColor(String farba) {
-        if (farba.equals("červená")) {
-            this.graphic.setColor(Color.red);
-        } else if (farba.equals("cierna")) {
-            this.graphic.setColor(Color.black);
-        } else if (farba.equals("hneda")) {
-            this.graphic.setColor(new Color(102,51,0));   
-        } else if (farba.equals("bledosiva")) {
-            this.graphic.setColor(new Color(232, 235, 239));      
-        } else if (farba.equals("tmavosiva")) {
-            this.graphic.setColor(new Color(125, 135, 150));
-        } else if (farba.equals("zlta")) {
-            this.graphic.setColor(Color.yellow.brighter());
-        } else if (farba.equals("green")) {
-            this.graphic.setColor(Color.green);
-        } else if (farba.equals("magenta")) {
-            this.graphic.setColor(Color.magenta);
-        } else if (farba.equals("biela")) {
-            this.graphic.setColor(Color.white);
-        } else {
-            this.graphic.setColor(Color.black);
+        switch (farba) {
+            case "cervena":
+                this.graphic.setColor(Color.red);
+                break;
+            case "cierna":
+                this.graphic.setColor(Color.black);
+                break;
+            case "hneda":
+                this.graphic.setColor(new Color(102, 51, 0));
+                break;
+            case "bledosiva":
+                this.graphic.setColor(new Color(232, 235, 239));
+                break;
+            case "tmavosiva":
+                this.graphic.setColor(new Color(125, 135, 150));
+                break;
+            case "zlta":
+                this.graphic.setColor(Color.yellow.brighter());
+                break;
+            case "green":
+                this.graphic.setColor(Color.green);
+                break;
+            case "magenta":
+                this.graphic.setColor(Color.magenta);
+                break;
+            case "biela":
+                this.graphic.setColor(Color.white);
+                break;
+            default:
+                this.graphic.setColor(Color.black);
+                break;
         }
     }
 
@@ -181,12 +190,12 @@ public class Platno {
      * Wait for a specified number of milliseconds before finishing.
      * This provides an easy way to specify a small delay which can be
      * used when producing animations.
-     * @param  milliseconds  the number 
+     * @param  milisekundy  the number 
      */
     public void wait(int milisekundy) {
         try {
             Thread.sleep(milisekundy);
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
             System.out.println("Cakanie sa nepodarilo");
         }
     }
@@ -195,20 +204,21 @@ public class Platno {
      * * Redraw all shapes currently on the Canvas.
      */
     public void redraw() {
-        System.out.println("redrawing");
         this.erase();
-        for (var object : this.objekty ) {
-            if (!object.getClass().toString().equals("class Vykreslenie.Ikona")) {
-                this.tvary.get(object).draw(this.graphic);
+        for (var obj : this.objekty ) {
+            if (!(obj instanceof vykreslenie.Ikona)) {
+                this.tvary.get(obj).draw(this.graphic);
             }
         }
-        this.canvas.repaint();
 
-        for (var object : this.objekty ) {
-            if (object.getClass().toString().equals("class Vykreslenie.Ikona")) {
-                this.figurky.get(object).draw();
+        for (var obj : this.objekty ) {
+            if (obj instanceof vykreslenie.Ikona) {
+                this.figurky.get(obj).draw();
             }
         }
+        
+        this.zobrazCasy();
+        this.canvas.repaint();
     }
        
     /**
@@ -226,20 +236,34 @@ public class Platno {
         this.canvas.addMouseListener(listener);
     }
     
-    public void addTimerListener(ActionListener listener) {
-        this.timer.addActionListener(listener);
-    }
-    
-    public String zobrazInputDialog(String popis) {
+    public String zobrazInput(String popis) {
         return JOptionPane.showInputDialog(this.frame, popis);
     }
-
-    public static class getPlatno {
-
-        public getPlatno() {
-        }
+    
+    public void zobrazWarning(String popis) {
+        JOptionPane.showMessageDialog(this.frame, popis, "Vystraha", JOptionPane.WARNING_MESSAGE);
     }
-
+    
+    public void zobrazCasy() {
+        Color original = this.graphic.getColor();
+        this.graphic.setColor(Color.white);
+        this.graphic.fill(new Rectangle(750, 50, 150, 100));
+        this.graphic.setColor(Color.black);
+        for (int i = 0; i < this.casy.size(); i++) {
+            this.graphic.drawString(this.casy.get(i), 750, 50 + i * 30);
+        }
+        this.graphic.setColor(original);
+        this.canvas.repaint();
+    }
+    
+    public void upravCasy(Hrac hrac1, Hrac hrac2) {
+        this.casy.clear();
+        this.casy.add(hrac1.getMeno() + " (" + hrac1.getFarba() + ")");
+        this.casy.add("Čas: " + hrac1.getCas());
+        this.casy.add(hrac2.getMeno() + " (" + hrac2.getFarba() + ")");
+        this.casy.add("Čas: " + hrac2.getCas());
+        this.zobrazCasy();
+    }
 
     /************************************************************************
      * Inner class CanvasPane - the actual canvas component contained in the
@@ -261,29 +285,30 @@ public class Platno {
         private Shape tvar;
         private String farba;
 
-        public PopisTvaru(Shape tvar, String farba) {
+        PopisTvaru(Shape tvar, String farba) {
             this.tvar = tvar;
             this.farba = farba;
         }
 
-        public void draw(Graphics2D graphic) {
+        void draw(Graphics2D graphic) {
             Platno.this.setForegroundColor(this.farba);
             graphic.fill(this.tvar);
         }
     }
     
     private class Ikona {
-        private int lavyHornyX, lavyHornyY;
-        private Image obrazok;
+        private int lavyHornyX;
+        private int lavyHornyY;
+        private final Image obrazok;
         
-        public Ikona(int lavyHornyX, int lavyHornyY, Image img) {
+        Ikona(int lavyHornyX, int lavyHornyY, Image img) {
             this.lavyHornyX = lavyHornyX;
             this.lavyHornyY = lavyHornyY;
             this.obrazok = img;
         }
         
-        public void draw() {
-            canvas.getGraphics().drawImage(obrazok, lavyHornyX, lavyHornyY, null);
+        void draw() {
+            Platno.this.graphic.drawImage(this.obrazok, this.lavyHornyX, this.lavyHornyY, null);
         }
     }
 }

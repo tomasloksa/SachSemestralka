@@ -5,56 +5,110 @@
  */
 package sach;
 
-import Vykreslenie.Platno;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.Timer;
-import javax.swing.JOptionPane;
+import vykreslenie.Platno;
+import vynimky.DostalMatException;
+import vynimky.DostalSachException;
+import vynimky.CasVyprsalException;
 
 /**
- *
+ * Hlavná trieda na správu hry
  * @author Tomas
  */
-public class Hra {
-    private Sachovnica sachovnica;
-    private Hrac bielyHrac;
-    private Hrac ciernyHrac;
-    private Timer bielyTimer;
-    private Timer ciernyTimer;
-    private Platno platno;
+public final class Hra {
+    private final Sachovnica sachovnica;
+    private Hrac hrac1;
+    private Hrac hrac2;
+    private final Platno platno;
     
+    /**
+     * Vytvorí šachovnicu + plátno a nastaví hru
+     */
     public Hra() {
-        this.sachovnica = new Sachovnica();
-        this.bielyHrac = new Hrac();
-        this.ciernyHrac = new Hrac();
+        this.sachovnica = Sachovnica.getSachovnica();
         this.platno = Platno.dajPlatno();
-
-        this.nastavHru();
-        this.hraj();
     }
     
-    public void hraj() {
-    }
-    
-    public void nastavHru() {
+    public void spustiHru() {
         this.sachovnica.nastavSachovnicu();
         Platno.dajPlatno().redraw();
-        this.klikniPolicko(3, 5);
-        this.klikniPolicko(3, 5);
-        this.klikniPolicko(0, 0);
-        this.klikniPolicko(3, 0);
-        /*String meno1 = platno.zobrazInputDialog("Zadaj meno 1. hráča");
-        String meno2 = platno.zobrazInputDialog("Zadaj meno 2. hráča");
+        String meno1 = this.platno.zobrazInput("Zadaj meno 1. hráča");
+        String meno2 = this.platno.zobrazInput("Zadaj meno 2. hráča");
+        double cas;
         try {
-            int cas = Integer.parseInt(platno.zobrazInputDialog("Zadaj čas v min."));
-        } catch (Exception e) {
-            int cas = -1;
-        }*/
+            cas = Double.parseDouble(this.platno.zobrazInput("Zadaj čas v minutach, \n -1 pre hru bez časomiery"));
+        } catch (NumberFormatException e) {
+            cas = -1;
+        }
+        this.hrac1 = new Hrac("biela", meno1);        
+        this.hrac2 = new Hrac("cierna", meno2);
+        this.hrac1.setCas(cas);
+        this.hrac2.setCas(cas);
+        
+        Timer timer;
+        timer = new Timer(1000, (ActionEvent evt) -> {
+            this.tick();
+        });
+        timer.start();
+        
+        Platno.dajPlatno().addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                Hra.this.klikniPolicko(e.getY() / 90, e.getX() / 90);
+            }
+        });
     }
     
-    public void klikniPolicko(int riadok, int stlpec) {
-        this.sachovnica.oznacPolicko(riadok, stlpec);
+    private void klikniPolicko(int riadok, int stlpec) {
+        try {
+            this.sachovnica.oznacPolicko(riadok, stlpec);
+        } catch (DostalMatException ex) {
+            this.platno.zobrazWarning(this.getHracMeno(ex.kto().equals("biely") ? "cierny" : "biely") + " Vyhral!");
+            System.exit(0);
+        } catch (DostalSachException ex) {
+            this.platno.zobrazWarning(this.getHracMeno(ex.kto()) + " dostal šach! \n Ak sa z neho nedostane v tomto ťahu, prehrá hru!");
+        }
+    }
+
+    private void tick() {
+        if (this.sachovnica.getNaTahu().equals(this.hrac1.getFarba())) {
+            try {
+                this.hrac1.tick();
+            } catch (CasVyprsalException ex) {
+                this.platno.zobrazWarning((this.hrac1.getMeno().equals("") ? this.hrac1.getMeno() : "biely") + " vyhral!");
+                System.exit(0);
+            }
+                
+        } else {
+            try { 
+                this.hrac2.tick();
+            } catch (CasVyprsalException ex) {
+                this.platno.zobrazWarning((this.hrac2.getMeno().equals("") ? this.hrac2.getMeno() : "cierny") + " vyhral!");
+                System.exit(0);
+
+            }
+        }
+        
+        if (this.hrac1.getCas() < 0 || this.hrac2.getCas() < 0) {
+            return;
+        }
+                    
+        this.platno.upravCasy(this.hrac1, this.hrac2);
+
+    }
+    
+    private String getHracMeno(String farba) {
+        String meno = "";
+        if (farba.equals("biela") || farba.equals("biely")) {
+            meno = this.hrac1.getMeno();
+        } else if (farba.equals("cierna") || farba.equals("cierny")) {
+            meno = this.hrac2.getMeno();
+        }
+        if (meno.equals("")) {
+            return farba;
+        }
+        return meno;
     }
 }

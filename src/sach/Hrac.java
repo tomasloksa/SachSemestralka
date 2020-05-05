@@ -5,32 +5,67 @@
  */
 package sach;
 
+import vynimky.CasVyprsalException;
+
 /**
- *
+ * Trieda hráča s informáciami o ňom
  * @author Tomas
  */
 public class Hrac {
     private String farba;
     private String meno;
+    private int cas;
     
-    public Hrac() {
-        this.farba = new String();
-        this.meno = new String();
-    }
-
-    public String getFarba() {
-        return farba;
-    }
-
-    public void setFarba(String farba) {
+    /**
+     * Vytvorí hráča a nastaví mu parametre
+     * @param farba farba hráčových figúrok
+     * @param meno meno hráča
+     */
+    public Hrac(String farba, String meno) {
         this.farba = farba;
-    }
-
-    public String getMeno() {
-        return meno;
-    }
-
-    public void setMeno(String meno) {
         this.meno = meno;
+    }
+
+    /**
+     * Vráti farbu hráča
+     * @return string s farbou hráča
+     */
+    public String getFarba() {
+        return this.farba;
+    }
+
+    /**
+     * Vráti meno hráča
+     * @return string s menom hráča
+     */
+    public String getMeno() {
+        return this.meno;
+    }
+    
+    /**
+     * Vráti zostávajúci čas na hráčových hodinách
+     * @return int s počtom zvyšných sekúnd
+     */
+    public int getCas() {
+        return this.cas;
+    }
+    
+    /**
+     * Nastaví čas pre hráča
+     * @param cas int s časom v minútach
+     */
+    public void setCas(double cas) {
+        this.cas = (int)(cas * 60);
+    }
+    
+    /**
+     * Odpočíta sekndu z hráčových hodiniek a vyhodí Exception, ak mu došiel čas
+     * @throws CasVyprsalException ak sa čas na hodinkách rovná nule
+     */
+    public void tick() throws CasVyprsalException {
+        this.cas--;
+        if (this.cas == 0) {
+            throw new CasVyprsalException();
+        }
     }
 }

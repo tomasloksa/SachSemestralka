@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Figurky;
+package vynimky;
 
 /**
- *
+ * Výnimka, ktorá sa vyhodí ak jednému z hráčov vypšal čas
  * @author Tomas
  */
-public interface IFigurka {
-    public boolean posunNaPoziciu(int riadok, int stlpec);
-    public boolean mozeSaPosunut(int riadok, int stlpec);
-    public String getFarba();
+public class CasVyprsalException extends Exception {
+
+    public CasVyprsalException() {
+    }
     
 }

@@ -5,27 +5,20 @@
  */
 package sach;
 
-import Vykreslenie.Platno;
+import vykreslenie.Platno;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
- *
+ * Main trieda, ktorá spustí hru
  * @author Tomas
  */
 public class Main {
-
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         Hra hra = new Hra();
-        Platno.dajPlatno().addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("klikam");
-                hra.klikniPolicko(e.getY() / 90, e.getX() / 90);
-            }
-        });
-        hra.hraj();
+        hra.spustiHru();
     }
 }

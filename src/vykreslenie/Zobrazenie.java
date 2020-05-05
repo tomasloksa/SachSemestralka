@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Vykreslenie;
+package vykreslenie;
 
 import java.awt.Rectangle;
 
 /**
- *
+ * Trieda pre zobrazenie Tvarov a Ikon
  * @author Tomas
  */
 
@@ -31,12 +31,16 @@ public abstract class Zobrazenie {
         this.jeViditelny = false;
     }
     
+    /**
+     * Nastaví cestu k súboru ikony
+     * @param cesta
+     */
     public void setCesta(String cesta) {
         this.cesta = cesta;
     }
     
     /**
-     * (Štvorec) Zobraz sa.
+     * Zobraz sa.
      */
     public void zobraz() {
         this.jeViditelny = true;
@@ -44,82 +48,49 @@ public abstract class Zobrazenie {
     }
     
     /**
-     * (Štvorec) Skry sa.
+     * Skry sa.
      */
     public void skry() {
         this.zmaz();
         this.jeViditelny = false;
     }
     
-        
+    /**
+     * Zmení farbu 
+     * @param farba farba, na ktorú sa tvar nastaví
+     */
     public void zmenFarbu(String farba) {
         this.farba = farba;
         this.nakresli();
     }
     
+    /**
+     * Vráti farbu tvaru
+     * @return String s farbou tvaru
+     */
     public String getFarba() {
         return this.farba;
     }
     
+    /**
+     * Nastaví polohu tvaru
+     * @param riadok riadok, na ktorom sa tvar zobrazí
+     * @param stlpec stĺpec na ktorom sa tvar zobrazí
+     */
     public void nastavPolohu (int riadok, int stlpec) {
         this.lavyHornyX = stlpec * this.strana;
         this.lavyHornyY = riadok * this.strana;
         
         this.nakresli();
     }
-    
-    public void zmenStranu(int dlzka) {
-        this.strana = dlzka;
-        this.nakresli();
-    }
-
-    /**
-     * (Štvorec) Posuň sa pomaly vodorovne o dĺžku danú parametrom.
-     */
-    public void pomalyPosunVodorovne(int vzdialenost) {
-        int delta;
-
-        if (vzdialenost < 0) {
-            delta = -1;
-            vzdialenost = -vzdialenost;
-        } else  {
-            delta = 1;
-        }
-
-        for (int i = 0; i < vzdialenost; i++) {
-            this.lavyHornyX += delta;
-            this.nakresli();
-        }
-    }
-
-    /**
-     * (Štvorec) Posuň sa pomaly vodorovne o dĺžku danú parametrom.
-     */
-    public void pomalyPosunZvisle(int vzdialenost) {
-        int delta;
-
-        if (vzdialenost < 0) {
-            delta = -1;
-            vzdialenost = -vzdialenost;
-        } else {
-            delta = 1;
-        }
-
-        for (int i = 0; i < vzdialenost; i++) {
-            this.lavyHornyY += delta;
-            this.nakresli();
-        }
-    }
 
     /*
-     * Draw the square with current specifications on screen.
+     * Nakreslí tvar/ikonu
      */
     public void nakresli() {
         if (this.jeViditelny) {
             Platno canvas = Platno.dajPlatno();
-            System.out.println(this.getClass().toString());
-            if (this.getClass().toString().equals("class Vykreslenie.Ikona")) {
-                // TODO nastavenie polohy
+            if (this instanceof vykreslenie.Ikona) {
                 canvas.drawImage(this, this.cesta, this.lavyHornyX, this.lavyHornyY, this.strana);
             } else {
                 canvas.draw(this, this.farba,
@@ -129,7 +100,7 @@ public abstract class Zobrazenie {
     }
 
     /*
-     * Erase the square on screen.
+     * Zmaže tvar/ikonu
      */
     protected void zmaz() {
         if (this.jeViditelny) {
