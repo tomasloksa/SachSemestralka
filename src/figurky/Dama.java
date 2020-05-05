@@ -20,7 +20,7 @@ public class Dama extends Figurka {
      * @param stlpec na akom stĺpci sa dáma nachádza
      */
     public Dama(String farba, int riadok, int stlpec) {
-        super(farba, riadok, stlpec);
+        super(farba,  riadok, stlpec);
     }
     
     /**

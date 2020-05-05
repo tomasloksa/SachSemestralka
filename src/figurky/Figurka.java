@@ -11,15 +11,22 @@ import vykreslenie.Ikona;
  * Predok všetkých figúr
  * @author Tomas
  */
-public abstract class Figurka implements IFigurka {
-    private String farba;
-    private Ikona ikona;
-    private String cesta;
+abstract class Figurka implements IFigurka {
+    private final String farba;
+    private final Ikona ikona;
+    private final String cesta;
     private int riadok;
     private int stlpec;
     private boolean vyhodena;
+    private boolean pohlaSa;
     
-    public Figurka(String farba, int riadok, int stlpec) {
+    /**
+     * Inicializuje figúrku a nastaví parametre
+     * @param farba farba figúrky
+     * @param riadok riadok, na ktorom sa figúrka nachádza
+     * @param stlpec stĺpec, na ktorom sa figúrka nachádza
+     */
+    Figurka(String farba, int riadok, int stlpec) {
         this.farba = farba;
         this.cesta = this.getNazov();
         this.ikona = new Ikona(this.cesta);
@@ -28,13 +35,14 @@ public abstract class Figurka implements IFigurka {
         this.ikona.nastavPolohu(riadok, stlpec);
         this.ikona.zobraz();
         this.vyhodena = false;
+        this.pohlaSa = false;
     }
     
     /**
-     * Zistí, či je ťah platný a posunie figúrku
+     * Zistí, či je ťah platný a posunie + prekreslí figúrku
      * @param riadok na aký riadok sa má posunúť
      * @param stlpec na aký stĺpec sa má posunúť
-     * @return
+     * @return true, ak sa môže posunúť, inak false;
      */
     @Override
     public boolean posunNaPoziciu(int riadok, int stlpec) {
@@ -46,10 +54,11 @@ public abstract class Figurka implements IFigurka {
         this.riadok = riadok;
         this.stlpec = stlpec;
         this.prekresli();
+        this.pohlaSa = true;
 
         return true;
     }
-        
+    
     /**
      * Vráti farbu figúrky
      * @return String s názvom farby
@@ -62,6 +71,7 @@ public abstract class Figurka implements IFigurka {
     /**
      * Vyhodí vigúrku zo šachovnice
      */
+    @Override
     public void vyhod() {
         this.vyhodena = true;
         this.ikona.skry();
@@ -77,7 +87,7 @@ public abstract class Figurka implements IFigurka {
     
     /**
      * Nastaví riadok figúrky
-     * @param riadok
+     * @param riadok riadok, na ktorý sa má poloha nastaviť
      */
     public void setRiadok(int riadok) {
         this.riadok = riadok;
@@ -93,7 +103,7 @@ public abstract class Figurka implements IFigurka {
     
     /**
      * Nastaví stĺpec figúrky
-     * @param stlpec
+     * @param stlpec stĺpec, na ktorý sa má figúrka položiť
      */
     public void setStlpec(int stlpec) {
         this.stlpec = stlpec;
@@ -106,6 +116,10 @@ public abstract class Figurka implements IFigurka {
     @Override
     public boolean jeVyhodena() {
         return this.vyhodena;
+    }
+    
+    public boolean pohlaSa() {
+        return this.pohlaSa;
     }
     
     private void prekresli() {

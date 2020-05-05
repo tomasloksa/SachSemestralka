@@ -12,19 +12,25 @@ import sach.Sachovnica;
  * @author Tomas
  */
 public class Veza extends Figurka {    
+    /**
+     * Inicializuje figúrku veža a nastaví jej parametre
+     * @param farba farba veže
+     * @param riadok riadok, na ktorom sa veža nachádza
+     * @param stlpec stĺpec, na ktorom sa veža nachádza
+     */
     public Veza(String farba, int riadok, int stlpec) {
         super(farba, riadok, stlpec);
     }
     
     /**
-     *
-     * @param riadok
-     * @param stlpec
-     * @return
+     * Zistí, či sa veža môže posunúť na danú pozíciu v súlade s pravidlami jeho pohybu
+     * @param riadok riadok, na ktorý sa veža chce posunúť
+     * @param stlpec stĺpec, na ktorý sa veža chce posunúť
+     * @return true, ak sa môže posunúť, inak false
      */
     @Override
     public boolean mozeSaPosunut(int riadok, int stlpec) {
-        // Ak sa chcem pohnut inak ako horiznotalne/vertikalne
+        // Ak sa chcem pohnut inak ako horizontalne/vertikalne
         if (this.getRiadok() != riadok && this.getStlpec() != stlpec) {
             return false;
         }
@@ -57,6 +63,10 @@ public class Veza extends Figurka {
         return true;
     }
     
+    /**
+     * Vráti názov súboru, v ktorom sa ikona veže nachádza
+     * @return String s názvom súboru
+     */
     @Override
     public String getNazov() {
         String nazovSuboru;

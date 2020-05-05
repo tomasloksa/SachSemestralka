@@ -13,7 +13,7 @@ import java.awt.Rectangle;
  */
 
 public abstract class Zobrazenie {
-    private int strana;
+    private final int strana;
     private int lavyHornyX;
     private int lavyHornyY;
     private String farba;
@@ -33,7 +33,7 @@ public abstract class Zobrazenie {
     
     /**
      * Nastaví cestu k súboru ikony
-     * @param cesta
+     * @param cesta cesta k súboru ikony
      */
     public void setCesta(String cesta) {
         this.cesta = cesta;

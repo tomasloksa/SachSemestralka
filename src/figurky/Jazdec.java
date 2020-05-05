@@ -22,7 +22,8 @@ public class Jazdec extends Figurka {
     }
     
     /**
-     * Zistí, či sa jazdec môže posunúť na danú pozíciu v súlade s pravidlami jeho pohybu
+     * Zistí, či sa jazdec môže posunúť na danú pozíciu v súlade s pravidlami 
+     * jeho pohybu
      * @param riadok na aký riadok sa chce posunúť
      * @param stlpec na aký stĺpec sa chce posunúť
      * @return true, ak je ťah platný, inak false

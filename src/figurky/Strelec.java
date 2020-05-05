@@ -8,19 +8,26 @@ package figurky;
 import sach.Sachovnica;
 
 /**
- * Figúrka strelca
+ * Figúrka Strelca
  * @author Tomas
  */
 public class Strelec extends Figurka {    
+
+    /**
+     * Inicializuje figúrku strelca a nastaví parametre
+     * @param farba farba strelca
+     * @param riadok riadok, na ktorom sa strelec nachádza
+     * @param stlpec stĺpec, na ktorom sa strelec nachádza
+     */
     public Strelec(String farba, int riadok, int stlpec) {
         super(farba, riadok, stlpec);
     }
-    
+
     /**
-     *
-     * @param riadok
-     * @param stlpec
-     * @return
+     * Zistí, či sa strelec môže posunúť na danú pozíciu v súlade s pravidlami jeho pohybu
+     * @param riadok riadok, na ktorý sa chce posunúť
+     * @param stlpec stĺpec, na ktorý sa chce posunúť
+     * @return true, ak sa môže posunúť, inak false
      */
     @Override
     public boolean mozeSaPosunut(int riadok, int stlpec) {
@@ -60,8 +67,8 @@ public class Strelec extends Figurka {
     }
     
     /**
-     *
-     * @return
+     * Vráti názov súboru, v ktorom sa nachádza ikona strelca
+     * @return String s názvom súboru
      */
     @Override
     public String getNazov() {

@@ -158,6 +158,14 @@ public class Sachovnica {
     public boolean jeVolne(int riadok, int stlpec) {
         return this.policka[riadok][stlpec].jeVolne();
     }
+    
+    public boolean pohlaSa(int riadok, int stlpec) {
+        if (!this.jeVolne(riadok, stlpec)) {
+            return this.policka[riadok][stlpec].getFigurka().pohlaSa();
+        }
+        
+        return true;
+    }
 
     /**
      * Pohne figúrku na zadané políčko
@@ -168,7 +176,17 @@ public class Sachovnica {
     public void pohni(Policko kam) throws DostalMatException, DostalSachException {
         if (kam.posunAVyhod(this.oznacene.getFigurka())) {
             this.poslednyTahal = kam.getFigurka().getFarba();
-            this.oznacene.setFigurka(null);
+            try {
+                this.oznacene.setFigurka(null);
+            } catch (NullPointerException ex) {
+                // Toto tu pribudlo kvôli rošáde - posun veže po kráľovi mi this.oznacene nulluje a inak by to spadlo
+
+                if (this.poslednyTahal.equals("biela")) {
+                    this.policka[7][4].setFigurka(null);
+                } else {
+                    this.policka[0][4].setFigurka(null);
+                }
+            }
         } else if (this.oznacene != kam) {
             Timer timer;
             timer = new Timer(200, (ActionEvent evt) -> {
@@ -179,8 +197,12 @@ public class Sachovnica {
             kam.setFarba("cervena");
             timer.start();
         }
-        this.oznacene.setPovodnaFarba();
-        this.oznacene = null;
+        try {
+            this.oznacene.setPovodnaFarba();
+            this.oznacene = null;
+        } catch (NullPointerException ex) {
+            // Toto tu pribudlo kvôli rošáde - posun veže po kráľovi mi this.oznacene nulluje a inak by to spadlo
+        }
         
         this.skontrolujKralov();
     }

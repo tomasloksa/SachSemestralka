@@ -5,17 +5,13 @@
  */
 package sach;
 
-import vykreslenie.Platno;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
 /**
  * Main trieda, ktorá spustí hru
  * @author Tomas
  */
 public class Main {
     /**
-     * @param args the command line arguments
+     * @param args
      */
     public static void main(String[] args) {
         Hra hra = new Hra();

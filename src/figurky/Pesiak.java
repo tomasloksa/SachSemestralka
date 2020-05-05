@@ -8,14 +8,17 @@ package figurky;
 import sach.Sachovnica;
 
 /**
- * Figúrka pešiaka
+ * Figúrka Pešiaka
+ *
  * @author Tomas
  */
 public class Pesiak extends Figurka {
+
     private boolean poholSa;
-    
+
     /**
      * Vytvorí figúrku pešiaka so zadanými parametrami
+     *
      * @param farba farba pešiaka
      * @param riadok riadok, na ktorom sa pešiak nachádza
      * @param stlpec stĺpec, na ktorom sa pešiak nachádza
@@ -24,11 +27,11 @@ public class Pesiak extends Figurka {
         super(farba, riadok, stlpec);
         this.poholSa = false;
     }
-    
-    // TODO branie mimochodom
 
     /**
-     * Zistí, či sa jazdec môže posunúť na danú pozíciu v súade s pravidlami jeho pohybu
+     * Zistí, či sa jazdec môže posunúť na danú pozíciu v súade s pravidlami
+     * jeho pohybu
+     *
      * @param riadok riadok, na ktorý sa chce posunúť
      * @param stlpec stĺpec, na ktorý sa chce posunúť
      * @return true, ak sa posunúť môže, inak false
@@ -36,7 +39,7 @@ public class Pesiak extends Figurka {
     @Override
     public boolean mozeSaPosunut(int riadok, int stlpec) {
         Sachovnica sachovnica = Sachovnica.getSachovnica();
-        
+
         if (super.getFarba().equals("cierna")) {
             if (super.getRiadok() == riadok - 1) {
                 if (stlpec == super.getStlpec() && sachovnica.jeVolne(riadok, stlpec)) {
@@ -46,7 +49,7 @@ public class Pesiak extends Figurka {
                     this.poholSa = true;
                     return true;
                 }
-            } 
+            }
             if (!this.poholSa && super.getRiadok() == riadok - 2) {
                 if (stlpec == super.getStlpec() && sachovnica.jeVolne(riadok, stlpec)) {
                     this.poholSa = true;
@@ -70,12 +73,13 @@ public class Pesiak extends Figurka {
                 }
             }
         }
-        
+
         return false;
     }
-    
+
     /**
      * Vráti názov súboru s ikonkou pešiaka
+     *
      * @return String s názvom súboru
      */
     @Override

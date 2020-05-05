@@ -34,7 +34,7 @@ public final class Hra {
     
     public void spustiHru() {
         this.sachovnica.nastavSachovnicu();
-        Platno.dajPlatno().redraw();
+        this.platno.redraw();
         String meno1 = this.platno.zobrazInput("Zadaj meno 1. hráča");
         String meno2 = this.platno.zobrazInput("Zadaj meno 2. hráča");
         double cas;
@@ -43,8 +43,15 @@ public final class Hra {
         } catch (NumberFormatException e) {
             cas = -1;
         }
-        this.hrac1 = new Hrac("biela", meno1);        
-        this.hrac2 = new Hrac("cierna", meno2);
+        
+        if (Math.random() <= 0.5) {
+            this.hrac1 = new Hrac("biela", meno1);        
+            this.hrac2 = new Hrac("cierna", meno2);
+        } else {
+            this.hrac1 = new Hrac("cierna", meno1);        
+            this.hrac2 = new Hrac("biela", meno2);
+        }
+        
         this.hrac1.setCas(cas);
         this.hrac2.setCas(cas);
         

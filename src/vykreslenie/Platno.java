@@ -20,10 +20,7 @@ import javax.swing.JOptionPane;
 import sach.Hrac;
 
 /**
- * Canvas is a class to allow for simple graphical drawing on a canvas.
- * This is a modification of the general purpose Canvas, specially made for
- * the BlueJ "shapes" example. 
- *
+ * Trieda má na starosti vykresľovanie tvarov/ikon pre užívateľa.
  */
 
 
@@ -32,7 +29,8 @@ public class Platno {
     private static Platno platnoSingleton;
 
     /**
-     * Factory method to get the canvas singleton object.
+     * Metóda ktorá vráti inštanciu plátna
+     * @return singleton plátna
      */
     public static Platno dajPlatno() {
         if (Platno.platnoSingleton == null) {
