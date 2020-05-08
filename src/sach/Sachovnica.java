@@ -8,7 +8,7 @@ package sach;
 import vynimky.DostalMatException;
 import vynimky.DostalSachException;
 import figurky.Dama;
-import figurky.IFigurka;
+import figurky.Figurka;
 import figurky.Jazdec;
 import figurky.Kral;
 import figurky.Pesiak;
@@ -41,7 +41,7 @@ public class Sachovnica {
     private final Policko[][] policka;
     private Policko oznacene;
     private String poslednyTahal;
-    private ArrayList<IFigurka> figurky;
+    private ArrayList<Figurka> figurky;
     private Kral bielyKral;
     private Kral ciernyKral;
     private boolean bielyMaSach;
@@ -180,7 +180,6 @@ public class Sachovnica {
                 this.oznacene.setFigurka(null);
             } catch (NullPointerException ex) {
                 // Toto tu pribudlo kvôli rošáde - posun veže po kráľovi mi this.oznacene nulluje a inak by to spadlo
-
                 if (this.poslednyTahal.equals("biela")) {
                     this.policka[7][4].setFigurka(null);
                 } else {
@@ -217,7 +216,7 @@ public class Sachovnica {
     
     // Kontrola, či je kráľ v šachu
     private void skontrolujKralov() throws DostalMatException, DostalSachException {
-        for (IFigurka figurka : this.figurky) {
+        for (Figurka figurka : this.figurky) {
             if (figurka.jeVyhodena()) {
                 continue;
             }

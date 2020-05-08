@@ -62,7 +62,7 @@ public final class Hra {
         timer.start();
         
         Platno.dajPlatno().addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 Hra.this.klikniPolicko(e.getY() / 90, e.getX() / 90);
             }
         });

@@ -11,7 +11,7 @@ import vykreslenie.Ikona;
  * Predok všetkých figúr
  * @author Tomas
  */
-abstract class Figurka implements IFigurka {
+public abstract class Figurka {
     private final String farba;
     private final Ikona ikona;
     private final String cesta;
@@ -44,7 +44,6 @@ abstract class Figurka implements IFigurka {
      * @param stlpec na aký stĺpec sa má posunúť
      * @return true, ak sa môže posunúť, inak false;
      */
-    @Override
     public boolean posunNaPoziciu(int riadok, int stlpec) {
         if (!this.mozeSaPosunut(riadok, stlpec)) {
             return false;
@@ -63,7 +62,6 @@ abstract class Figurka implements IFigurka {
      * Vráti farbu figúrky
      * @return String s názvom farby
      */
-    @Override
     public String getFarba() {
         return this.farba;
     }
@@ -71,7 +69,6 @@ abstract class Figurka implements IFigurka {
     /**
      * Vyhodí vigúrku zo šachovnice
      */
-    @Override
     public void vyhod() {
         this.vyhodena = true;
         this.ikona.skry();
@@ -113,7 +110,6 @@ abstract class Figurka implements IFigurka {
      * Zistí, či je figúrka vyhodená
      * @return true, ak je vyhodena, inak false
      */
-    @Override
     public boolean jeVyhodena() {
         return this.vyhodena;
     }
@@ -132,7 +128,6 @@ abstract class Figurka implements IFigurka {
      * @param stlpec na aký stĺpec sa má posunúť
      * @return True, ak je ťah platný, inak false
      */
-    @Override
     public abstract boolean mozeSaPosunut(int riadok, int stlpec);
-    abstract String getNazov();
+    protected abstract String getNazov();
 }

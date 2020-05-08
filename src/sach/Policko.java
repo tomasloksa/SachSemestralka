@@ -8,7 +8,7 @@ package sach;
 import figurky.Dama;
 import vykreslenie.Stvorec;
 import vykreslenie.Platno;
-import figurky.IFigurka;
+import figurky.Figurka;
 import figurky.Jazdec;
 import figurky.Strelec;
 import figurky.Veza;
@@ -18,7 +18,7 @@ import figurky.Veza;
  * @author Tomas
  */
 public class Policko {
-    private IFigurka figurka;
+    private Figurka figurka;
     private final Stvorec stvorec;
     private final String povodnaFarba;
     private final int riadok;
@@ -45,7 +45,7 @@ public class Policko {
      * Vráti figúrku, ktorá stojí na tomto políčku
      * @return Figurka z tohto políčka
      */
-    public IFigurka getFigurka() {
+    public Figurka getFigurka() {
         return this.figurka;
     }
 
@@ -54,7 +54,7 @@ public class Policko {
      * @param figurka Figúrka, ktorá sa postaví na toto políčko
      * @return boolean, či sa figúrku podarilo posunúť
      */
-    public boolean posunAVyhod(IFigurka figurka) {
+    public boolean posunAVyhod(Figurka figurka) {
         // Posuva prazdne policko
         if (figurka == null) {
             return false;
@@ -110,7 +110,7 @@ public class Policko {
      * Slúži na počiatočnú inicializáciu figúrky
      * @param figurka Figúrka, ktorá sa postaví na toto políčko
      */
-    public void setFigurka(IFigurka figurka) {
+    public void setFigurka(Figurka figurka) {
         this.figurka = figurka;
     }
     
