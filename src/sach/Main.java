@@ -11,7 +11,7 @@ package sach;
  */
 public class Main {
     /**
-     * @param args
+     * @param args vstupné argumenty
      */
     public static void main(String[] args) {
         Hra hra = new Hra();

@@ -6,7 +6,7 @@
 package vynimky;
 
 /**
- * Výnimka, ktorá sa vyhodí ak jednému z hráčov vypšal čas
+ * Výnimka, ktorá sa vyhodí, ak jednému z hráčov vypšal čas
  * @author Tomas
  */
 public class CasVyprsalException extends Exception {

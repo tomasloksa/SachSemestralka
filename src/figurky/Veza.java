@@ -8,7 +8,7 @@ package figurky;
 import sach.Sachovnica;
 
 /**
- *
+ * Figúrka veže
  * @author Tomas
  */
 public class Veza extends Figurka {    

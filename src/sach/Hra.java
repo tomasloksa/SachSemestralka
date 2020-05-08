@@ -39,7 +39,7 @@ public final class Hra {
         String meno2 = this.platno.zobrazInput("Zadaj meno 2. hráča");
         double cas;
         try {
-            cas = Double.parseDouble(this.platno.zobrazInput("Zadaj čas v minutach, \n -1 pre hru bez časomiery"));
+            cas = Double.parseDouble(this.platno.zobrazInput("Zadaj čas v minutach, \n-1 pre hru bez časomiery"));
         } catch (NumberFormatException e) {
             cas = -1;
         }
@@ -75,7 +75,7 @@ public final class Hra {
             this.platno.zobrazWarning(this.getHracMeno(ex.kto().equals("biely") ? "cierny" : "biely") + " Vyhral!");
             System.exit(0);
         } catch (DostalSachException ex) {
-            this.platno.zobrazWarning(this.getHracMeno(ex.kto()) + " dostal šach! \n Ak sa z neho nedostane v tomto ťahu, prehrá hru!");
+            this.platno.zobrazWarning(this.getHracMeno(ex.kto()) + " dostal šach! \nAk sa z neho nedostane v tomto ťahu, prehrá hru!");
         }
     }
 
@@ -84,7 +84,7 @@ public final class Hra {
             try {
                 this.hrac1.tick();
             } catch (CasVyprsalException ex) {
-                this.platno.zobrazWarning((this.hrac1.getMeno().equals("") ? this.hrac1.getMeno() : "biely") + " vyhral!");
+                this.platno.zobrazWarning(this.hrac2.getMeno() + " vyhral!");
                 System.exit(0);
             }
                 
@@ -92,7 +92,7 @@ public final class Hra {
             try { 
                 this.hrac2.tick();
             } catch (CasVyprsalException ex) {
-                this.platno.zobrazWarning((this.hrac2.getMeno().equals("") ? this.hrac2.getMeno() : "cierny") + " vyhral!");
+                this.platno.zobrazWarning(this.hrac1.getMeno() + " vyhral!");
                 System.exit(0);
 
             }

@@ -39,7 +39,16 @@ public class Hrac {
      * @return string s menom hráča
      */
     public String getMeno() {
-        return this.meno;
+        if (!this.meno.equals("")) {
+            return this.meno;
+        } else {
+            if (this.farba.equals("biela")) {
+                return "biely";
+            } else if (this.farba.equals("cierna")) {
+                return "cierny";
+            }
+        }
+        return "";
     }
     
     /**
